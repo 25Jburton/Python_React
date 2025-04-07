@@ -1,7 +1,7 @@
 // App.js
 import { Routes, Route } from 'react-router-dom';
-import Home from './index';
-import Game from './gameIndex';
+import Home from './AppHome';
+import GameApp from './GameApp';
 
  
 const App = () => {
@@ -9,7 +9,7 @@ const App = () => {
       <>
          <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/game" element={<Game />} />
+            <Route path="/game" element={<GameApp />} />
          </Routes>
       </>
    );
