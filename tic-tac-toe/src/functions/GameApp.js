@@ -3,7 +3,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import GameInstructions from './GameInstructions';
 import GameBoard from './GameBoard';
-import Score from './Score';
 
 
 function GameApp() {
@@ -17,12 +16,6 @@ function GameApp() {
       board.render(
         <React.StrictMode>
           <GameBoard />
-        </React.StrictMode>
-    );
-    const score = ReactDOM.createRoot(document.getElementById('score'));
-      score.render(
-        <React.StrictMode>
-          <Score />
         </React.StrictMode>
     );
 }
