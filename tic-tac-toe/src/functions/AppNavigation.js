@@ -3,8 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './AppHome';
 import GameApp from './GameApp';
 
- 
-const App = () => {
+function App() {
    return (
       <>
          <Routes>
