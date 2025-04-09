@@ -18,12 +18,14 @@ const nestedObj = (
 /*
 Setup a container targeting the HTML we want
 - import { createRoot } from 'react-dom/client';
-*/
 const container = document.getElementById('mainBlock');
+*/
+
 /*
 Setup a root for our container
-*/
 const root = createRoot(container);
+*/
+
 /*
 Render the JSX to our root 
 */
@@ -104,3 +106,82 @@ const exampleJSXFree = React.createElement(
     null,
     "inner text"
 );
+
+/*
+ Animal Fact - codecademy exercise
+*/ 
+
+/*
+animals.js
+export const animals = {
+  dolphin: {
+    image: '/images/dolphin.jpg',
+    facts: ['Dolphins have been shown to give distinct names to each other!', 'Dolphins are known to display their own culture!', 'Dolphins have two stomachs!']
+  },
+  lobster: {
+    image: '/images/lobster.jpg',
+    facts: ['Lobsters taste with their legs!', 'Lobsters chew with their stomachs!', 'Lobsters can live as long as 100 years.']
+  },
+  starfish: {
+    image: '/images/starfish.jpg',
+    facts: ['Starfish can have up to 40 arms!', 'Starfish have no brain and no blood!', 'Starfish can regenerate their own arms!']
+  }
+};
+*/
+
+import { animals } from './animals';
+import React from 'react';
+const { createRoot } = require("react-dom/client");
+
+
+const container = document.getElementById('app');
+const root = createRoot(container);
+
+const showBackground = true;
+const background = (
+  <img 
+    className='background' 
+    alt='ocean'
+    src='/images/ocean.jpg'
+  />
+);
+
+function displayFact(e){
+  const alt = e.target.alt;
+  const max = animals[alt].facts.length;
+  const randIndex = Math.floor(Math.random() * max);
+  const fact = animals[alt].facts[randIndex];
+  document.getElementById('fact').innerHTML = fact;
+}
+
+const animalImages = [];
+for(const animal in animals){
+    animalImages.push(
+     <img
+      key={animal}
+      className='animal'
+      alt={animal}
+      src={animals[animal].image}
+      aria-label={animal}
+      role='button'
+      onClick={displayFact}
+    />
+  );
+}
+
+const title = '';
+const animalFacts = (
+  <div>
+    {showBackground === true && background}
+          <p id='fact'>
+      </p>
+    <div className='animals'>
+      {animalImages}
+    </div>
+    <h1>
+    {!title ? 'Click an animal for a fun fact!' : title}
+    </h1>
+  </div>
+);
+
+root.render(animalFacts);
