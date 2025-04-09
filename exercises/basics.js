@@ -1,5 +1,10 @@
 import React from 'react';
 const { createRoot } = require("react-dom/client");
+/* 
+Can also just import and call ReactDOM
+- import ReactDOM from 'react-dom/client';
+ReactDOM.createRoot(container).render(<ImportedComponent />)
+*/
 
 // Variables in JSX
 const varName = 'Basic String';
@@ -14,6 +19,15 @@ const nestedObj = (
         </p>
     </div>
 );
+
+/* 
+To nest imported components wrap with open and closing
+render(
+  <OuterComponent>
+    <InnerComponent />
+  <OuterComponent />
+);
+*/
 
 /*
 Setup a container targeting the HTML we want
@@ -185,3 +199,68 @@ const animalFacts = (
 );
 
 root.render(animalFacts);
+
+/* 
+Event Handler conventions
+- naming typically start with 'handle' then the event type
+onClick = handleClick
+
+adding to a component
+*/
+function sampleComponent(){
+  function handleClick() {
+    console.log('Clicked add the code needed!');
+  }
+
+  return <button onClick={handleClick}>Click Me</button>
+}
+// When <sampleComponent /> is returned the click event will be available 
+
+
+/*
+  Basic contact form with authorization
+*/
+function Contact() {
+  const password = 'swordfish';
+  const [authorized, setAuthorized] = useState(false);
+
+  function handleSubmit(e) {
+    const enteredPassword = e.target.querySelector(
+      'input[type="password"]').value;
+    const auth = enteredPassword == password;
+    setAuthorized(auth)
+  }
+
+  const login = (
+    <form 
+      action="#" 
+      onSubmit={handleSubmit}
+    >
+      <input 
+        type="password" placeholder="password" 
+      />
+      <input 
+        type="submit" 
+      />
+    </form>
+  );
+
+  const contactInfo = (
+    <ul>
+      <li>
+        client@example.com
+      </li>
+      <li>
+        555.555.5555
+      </li>
+    </ul>
+  ); 
+
+
+  return (
+      <div id="authorization">
+        <h1>{authorized  ? 'Contact' : 'Enter the Password' }</h1>
+        {authorized  ? contactInfo : login }
+      </div>
+  );
+}
