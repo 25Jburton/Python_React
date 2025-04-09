@@ -82,3 +82,25 @@ const elementWithOperator = <div
     className={baseValue > 2 && 'add-class'}
 >
 </div>
+
+// Mapping arrays
+const myArray = [
+    'RedBull',
+    'Ferrari',
+    'Racing Bulls',
+    'Aston Martin',
+    'Williams'
+];
+
+const mapArray = myArray.map(team, key => <li>{team}</li>);
+// Turn it into a unordered list with a key (number_1)
+const myList = <ul key={'number_'+key} >{mapArray}</ul>;
+root.render(myList);
+
+
+// Creating without using JSX
+const exampleJSXFree = React.createElement(
+    "div",
+    null,
+    "inner text"
+);
