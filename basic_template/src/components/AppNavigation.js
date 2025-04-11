@@ -1,6 +1,7 @@
 // App.js
 import { Routes, Route } from 'react-router-dom';
 import Home from './AppHome';
+import AboutPage from './Page_About';
 
 function AppNavigation() {
    return (
@@ -8,6 +9,7 @@ function AppNavigation() {
          <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
+            <Route path='/about' element={<AboutPage />} />
          </Routes>
       </>
    );

@@ -20,6 +20,15 @@ function AppHeader() {
                 Home
               </button>
           </a>
+          <a 
+            href='/about'>
+              <button
+                type='button'
+                className='btn btn-primary btn-lg'
+              >
+                About
+              </button>
+          </a>
         </div>
       </div>
     </header>
