@@ -1,0 +1,37 @@
+/* 
+    Create files for Components as needed and import into the Component
+    - import styles from './Dashboard.module.css'
+    * To avoid any style conflicts from naming conventions use modules
+    * styles will only be available for the component that imported the style.
+    (Provides a unique class name)
+
+    File Names
+    - componentName.module.css
+
+    .menuWrapper {
+        text-align: center;
+        padding: 20px;
+    }
+    <div className={styles.menuWrapper}>
+
+    write prop names as camelCase - backgroundColor, marginTop
+    *  A hyphen is a reserved operator in JS (hyphen is then interpreted as a minus sign)
+    - Must use camelCase to ensure rendering
+    For any styles not using px must wrap as string value
+    { fontSize: 2 } - px applied by default
+    { fontSize: "2em" }
+
+*/
+
+/* 
+    Inline styles directly in our JS
+    - Set the styles as a const to be called
+    const darkMode = {
+        color: 'white',
+        background: 'black'
+    };
+    <div style={darkMode}>Example</div>
+        Or with no const double wrap in brackets 
+        - 1st to read as JS 2nd to create JS object literal
+    <div style={{background: 'black'}}>Example</div>
+*/
