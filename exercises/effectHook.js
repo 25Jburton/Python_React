@@ -241,21 +241,20 @@ import { get } from './mockBackend/fetch';
 
 export default function SocialNetwork() {
   const [menu, setMenu] = useState(null);
-  useEffect(() => {
-    get('/menu').then((response) => {
-      setMenu(response.data);
-  }, []);
+    useEffect(
+    () => {
+        get('/menu').then((response) => {setMenu(response.data);}, []);
+    });
   const [newsFeed, setNewsFeed] = useState(null);
-  useEffect(() => {
-    get('/news-feed').then((response) => {
-      setNewsFeed(response.data);
-  }, []);
+    useEffect(
+    () => {
+        get('/news-feed').then((response) => {setNewsFeed(response.data);}, []);
+    });
   const [friends, setFriends] = useState(null);
-  useEffect(() => {
-    get('/friends').then((response) => {
-      setFriends(response.data);
-  }, []);
-
+    useEffect(
+    () => {
+        get('/friends').then((response) => {setFriends(response.data);}, []);
+    });
   return (
     <div className='App'>
       <h1>My Network</h1>
