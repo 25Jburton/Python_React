@@ -2,6 +2,13 @@
     Want the server to know about every new character or deletion, as soon as it happens. 
     That way, your screen will always be in sync with the rest of your application
     (Unlike typical forms that have no server communication until submission) 
+
+    Uncontrolled component is a component that maintains its own internal state
+    - let input = document.querySelector('input[type="text"]')
+    - <input type="text"></input>
+    Controlled component has no state, it must be controlled by someone else (has no memory, value is stored in props)
+    <input type="text" onChange={handleUserInput} value={userInput} />
+
 */
 
 // Basic active form with event handler to view live progress
