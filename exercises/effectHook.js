@@ -5,6 +5,10 @@
     When the component is first added, or mounted, to the DOM and renders.
     When the state or props change, causing the component to re-render.
     When the component is removed, or unmounted, from the DOM.
+
+    Rules for using hooks
+        Only call Hooks at the top level.
+        Only call Hooks from React functions.
 */
 import React, { useState, useEffect } from 'react';
 /*
@@ -104,4 +108,190 @@ export default function Timer() {
         <h1>Time: {time}</h1>
         </>
     );
+}
+
+
+/*
+    Fetching data with effect hooks
+    - Control when we fetch the data of fire our hook by adding dependency vars to our array 
+*/
+const [count,SetCount] = useState;
+useEffect(() => {
+    document.title = `You clicked ${count} times`;
+  }, [count]); // Only re-run the effect if the value stored by count changes
+  
+
+  // fetch data about the weather and allow our users to write some notes next to the forecast
+import React, { useState, useEffect } from "react";
+// Example fetching from external function call
+import { get } from './mockBackend/fetch';
+
+export default function Forecast() {
+    const [data, setData] = useState(null);
+    const [notes, setNotes] = useState({});
+    const [forecastType, setForecastType] = useState('/daily');
+
+    useEffect(() => {
+        alert('Requested data from server...');
+        get(forecastType).then((response) => {
+        alert('Response: ' + JSON.stringify(response,'',2));
+        setData(response.data);
+        });
+    }, [forecastType]);
+
+    const handleChange = (index) => ({ target }) =>
+        setNotes((prev) => ({
+        ...prev,
+        [index]: target.value
+        }));
+    if (!data) {
+        return <p>Loading...</p>;
+    }
+    return (
+        <div className='App'>
+        <h1>My Weather Planner</h1>
+        <div>
+            <button onClick={() => setForecastType('/daily')}>5-day</button>
+            <button onClick={() => setForecastType('/hourly')}>Today</button>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>Summary</th>
+                <th>Avg Temp</th>
+                <th>Precip</th>
+                <th>Notes</th>
+            </tr>
+            </thead>
+            <tbody>
+            {data.map((item, i) => (
+                <tr key={item.id}>
+                <td>{item.summary}</td>
+                <td> {item.temp.avg}°F</td>
+                <td>{item.precip}%</td>
+                <td>
+                    <input
+                    value={notes[item.id] || ''}
+                    onChange={handleChange(item.id)}
+                    />
+                </td>
+                </tr>
+            ))}
+            </tbody>
+        </table>
+        </div>
+    );
+}
+
+
+
+// Example showing 'rules' for keeping hooks at top level and not wrapped in conditional logic
+import React, { useState, useEffect } from 'react';
+import { get } from './mockBackend/fetch';
+
+export default function Shop() {
+  const [categories, setCategories] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [items, setItems] = useState({});
+
+  useEffect(() => {
+      get('/categories').then((response) => {
+        setCategories(response.data);
+      });
+  }, []);
+
+
+  useEffect(() => {
+      if (selectedCategory && !items[selectedCategory]) {
+        get(`/items?category=${selectedCategory}`).then((response) => {
+          setItems((prev) => ({ ...prev, [selectedCategory]: response.data }));
+        }, [selectedCategory, items]);
+      }
+  });
+
+  if (!categories) {
+    return <p>Loading..</p>;
+  }
+
+  return (
+    <div className='App'>
+      <h1>Clothes 'n Things</h1>
+      <nav>
+        {categories.map((category) => (
+          <button key={category} onClick={() => setSelectedCategory(category)}>
+            {category}
+          </button>
+        ))}
+      </nav>
+      <h2>{selectedCategory}</h2>
+      <ul>
+        {!items[selectedCategory]
+          ? null
+          : items[selectedCategory].map((item) => <li key={item}>{item}</li>)}
+      </ul>
+    </div>
+  );
+}
+
+
+
+// Structure and breakout the state and effect hooks to keep the data ordered and easy to read/understand 
+import React, { useState, useEffect } from 'react';
+import { get } from './mockBackend/fetch';
+
+export default function SocialNetwork() {
+  const [menu, setMenu] = useState(null);
+  useEffect(() => {
+    get('/menu').then((response) => {
+      setMenu(response.data);
+  }, []);
+  const [newsFeed, setNewsFeed] = useState(null);
+  useEffect(() => {
+    get('/news-feed').then((response) => {
+      setNewsFeed(response.data);
+  }, []);
+  const [friends, setFriends] = useState(null);
+  useEffect(() => {
+    get('/friends').then((response) => {
+      setFriends(response.data);
+  }, []);
+
+  return (
+    <div className='App'>
+      <h1>My Network</h1>
+      {!menu || !menu ? <p>Loading..</p> : (
+        <nav>
+          {menu.map((menuItem) => (
+            <button key={menuItem}>{menuItem}</button>
+          ))}
+        </nav>
+      )}
+      <div className='content'>
+        {!newsFeed || !newsFeed ? <p>Loading..</p> : (
+          <section>
+            {newsFeed.map(({ id, title, message, imgSrc }) => (
+              <article key={id}>
+                <h3>{title}</h3>
+                <p>{message}</p>
+                <img src={imgSrc} alt='' />
+              </article>
+            ))}
+          </section>
+        )}
+        {!friends || !friends ? <p>Loading..</p> : (
+          <aside>
+            <ul>
+              {friends
+                .sort((a, b) => (a.isOnline && !b.isOnline ? -1 : 0))
+                .map(({ id, name, isOnline }) => (
+                  <li key={id} className={isOnline ? 'online' : 'offline'}>
+                    {name}
+                  </li>
+                ))}
+            </ul>
+          </aside>
+        )}
+      </div>
+    </div>
+  );
 }
